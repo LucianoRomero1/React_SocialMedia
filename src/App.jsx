@@ -1,9 +1,11 @@
+import { Routing } from "./router/Routing";
+
 function App() {
   return (
     <div className="layout">
-      <h1>Project #4</h1>;
+      <Routing />
     </div>
-  )
+  );
 }
 
 export default App;
