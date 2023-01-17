@@ -1,5 +1,5 @@
 import React from "react";
-import avatar from '../../assets/img/user.png';
+import avatar from "../../assets/img/user.png";
 
 export const Feed = () => {
   return (
@@ -149,7 +149,9 @@ export const Feed = () => {
         </div>
 
         <div className="content__container-btn">
-          <button className="content__btn-more-post">Ver mas publicaciones</button>
+          <button className="content__btn-more-post">
+            Ver mas publicaciones
+          </button>
         </div>
       </section>
     </>
