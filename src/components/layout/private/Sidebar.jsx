@@ -34,7 +34,7 @@ export const Sidebar = () => {
 
             <div className="general-info__container-names">
               <a href="#" className="container-names__name">
-                {auth.name} {auth.surname}
+                {auth.surname} {auth.name}
               </a>
               <p className="container-names__nickname">{auth.nick}</p>
             </div>
@@ -57,7 +57,9 @@ export const Sidebar = () => {
             <div className="stats__following">
               <a href="#" className="following__link">
                 <span className="following__title">Posts</span>
-                <span className="following__number">{counters.publications}</span>
+                <span className="following__number">
+                  {counters.publications}
+                </span>
               </a>
             </div>
           </div>
