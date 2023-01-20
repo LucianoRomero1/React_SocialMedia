@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from "react";
 import avatar from "../../assets/img/user.png";
 import { Global } from "../../helpers/Global";
+import useAuth from "../../hooks/useAuth";
 
 export const People = () => {
+  const { auth } = useAuth();
   const [users, setUsers] = useState([]);
   const [page, setPage] = useState(1);
   const [more, setMore] = useState(true);
+  const [following, setFollowing] = useState([]);
   const [loading, setLoading] = useState(true);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     getUsers(1);
@@ -14,7 +18,6 @@ export const People = () => {
 
   const getUsers = async (nextPage = 1) => {
     setLoading(true);
-    const token = localStorage.getItem("token");
 
     const request = await fetch(Global.url + "user/list/" + nextPage, {
       method: "GET",
@@ -32,9 +35,10 @@ export const People = () => {
       }
 
       setUsers(newUsers);
+      setFollowing(data.user_following);
       setLoading(false);
 
-      if (users.length >= data.total) {
+      if (users.length >= data.total - data.users.length) {
         setMore(false);
       }
     }
@@ -44,6 +48,42 @@ export const People = () => {
     let next = page + 1;
     setPage(next);
     getUsers(next);
+  };
+
+  const follow = async (userId) => {
+    const request = await fetch(Global.url + "follow/save", {
+      method: "POST",
+      body: JSON.stringify({ followed: userId }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    const data = await request.json();
+
+    if (data.status == "success") {
+      setFollowing([...following, userId]);
+    }
+  };
+
+  const unfollow = async (userId) => {
+    const request = await fetch(Global.url + "follow/unfollow/" + userId, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+    });
+
+    const data = await request.json();
+
+    if (data.status == "success") {
+      let filterFollowings = following.filter(
+        (followingUserId) => userId !== followingUserId
+      );
+      setFollowing(filterFollowings);
+    }
   };
 
   return (
@@ -92,14 +132,27 @@ export const People = () => {
                   </div>
                 </div>
 
-                <div className="post__buttons">
-                  <a href="#" className="post__button post__button--green">
-                    Follow
-                  </a>
-                  <a href="#" className="post__button">
-                    Unfollow
-                  </a>
-                </div>
+                {user._id != auth._id && (
+                  <div className="post__buttons">
+                    {!following.includes(user._id) && (
+                      <button
+                        className="post__button post__button--green"
+                        onClick={() => follow(user._id)}
+                      >
+                        Follow
+                      </button>
+                    )}
+
+                    {following.includes(user._id) && (
+                      <button
+                        className="post__button"
+                        onClick={() => unfollow(user._id)}
+                      >
+                        Unfollow
+                      </button>
+                    )}
+                  </div>
+                )}
               </article>
             );
           })}
