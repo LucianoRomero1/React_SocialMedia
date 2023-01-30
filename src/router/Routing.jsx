@@ -8,6 +8,7 @@ import { Feed } from "../components/publication/Feed";
 import { Login } from "../components/user/Login";
 import { Logout } from "../components/user/Logout";
 import { People } from "../components/user/People";
+import { Profile } from "../components/user/Profile";
 import { Register } from "../components/user/Register";
 import { Settings } from "../components/user/Settings";
 import { AuthProvider } from "../context/AuthProvider";
@@ -31,6 +32,7 @@ export const Routing = () => {
             <Route path="settings" element={<Settings />} />
             <Route path="following/:userId" element={<Following />} />
             <Route path="followers/:userId" element={<Followers />} />
+            <Route path="profile/:userId" element={<Profile />} />
           </Route>
 
           <Route
