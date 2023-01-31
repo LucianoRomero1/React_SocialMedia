@@ -3,6 +3,7 @@ import { Global } from "../../helpers/Global";
 import useAuth from "../../hooks/useAuth";
 import avatar from "../../assets/img/user.png";
 import { Link } from "react-router-dom";
+import ReactTimeAgo from "react-time-ago";
 
 export const UserList = ({
   users,
@@ -12,7 +13,7 @@ export const UserList = ({
   page,
   setPage,
   loading,
-  more
+  more,
 }) => {
   const { auth } = useAuth();
   const token = localStorage.getItem("token");
@@ -67,7 +68,10 @@ export const UserList = ({
             <article className="posts__post" key={user._id}>
               <div className="post__container">
                 <div className="post__image-user">
-                  <Link to={"/social/profile/" + user._id} className="post__image-link">
+                  <Link
+                    to={"/social/profile/" + user._id}
+                    className="post__image-link"
+                  >
                     {user.image != "default.png" && (
                       <img
                         src={Global.url + "user/avatar/" + user.image}
@@ -87,12 +91,18 @@ export const UserList = ({
 
                 <div className="post__body">
                   <div className="post__user-info">
-                    <Link to={"/social/profile/" + user._id} className="user-info__name">
+                    <Link
+                      to={"/social/profile/" + user._id}
+                      className="user-info__name"
+                    >
                       {user.surname} {user.name}
                     </Link>
                     <span className="user-info__divider"> | </span>
-                    <Link to={"/social/profile/" + user._id} className="user-info__create-date">
-                      {user.created_at}
+                    <Link
+                      to={"/social/profile/" + user._id}
+                      className="user-info__create-date"
+                    >
+                      <ReactTimeAgo date={user.created_at} locale="es-AR" />
                     </Link>
                   </div>
 

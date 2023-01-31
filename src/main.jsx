@@ -7,4 +7,10 @@ import "./assets/css/normalize.css";
 import "./assets/css/styles.css";
 import "./assets/css/responsive.css";
 
+import TimeAgo from "javascript-time-ago";
+import es from "javascript-time-ago/locale/es-AR.json";
+
+TimeAgo.addDefaultLocale(es);
+TimeAgo.addLocale(es);
+
 ReactDOM.createRoot(document.getElementById("root")).render(<App />);
